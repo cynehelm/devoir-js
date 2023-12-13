@@ -3,25 +3,57 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 p {
     color: aliceblue;
+    font-family: 'Roboto Flex', sans-serif;
+
+}
+
+h1 {
+    color: aliceblue;
+    font-family: 'Tilt Warp', sans-serif;
+}
+
+h2 {
+    color: aliceblue;
+    font-family: 'Young Serif', serif;
+
 }
 
 #div-1 {
-    background-color: grey;
+    background: transparent;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     border-radius: 10%;
+    backdrop-filter: blur(10px);
+    border: 1px solid gray;
 }
 
 .Carte-Chauffeur {
     display: flex;
     align-items: center;
     flex-direction: column;
+    flex-wrap: wrap;
     background-color: black;
+    opacity: 50%;
+    backdrop-filter: blur(10px);
+    border: 1px solid gray;
     border-radius: 10%;
+    max-width: 300px;
+    padding: 1%;
+    margin: 1%;
+}
+
+.Carte-Chauffeur:hover {
+    opacity: 100%;
+    transition-duration: 2s;
 }
 
 img {
@@ -31,5 +63,19 @@ img {
 }
 
 #div-2 {
+
     height: 350px;
+    width: 90%;
+}
+canvas {
+    backdrop-filter: blur(10px);
+}
+#div-3 {
+background-color: whitesmoke;
+width: 90%;
+height: 450px;
+display: flex;
+align-items: center;
+flex-direction: column;
+flex-wrap: wrap;
 }

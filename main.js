@@ -42,7 +42,7 @@ const PRENOM_DES_CHAUFFEURS = ["Lucien", "Isabelle","Pierre","Sophie"]
 const NOM_DES_CHAUFFEURS = ["Dubois", "Martin","Lefevre", "Renault"];
 const ADRESSE_DES_CHAUFFEURS = ["20 rue des Chats", "10 rue des Oiseaux", "30 rue des Chênes", "40 Rue des Haricots"];
 const ADRESSE_POSTALE_DES_CHAUFFEURS = [29200,29200,28203,29381];
-const COORDONEES_DES_CHAUFFEURS = [[10,20],[20,10],[30,40],[40,30]];
+const COORDONEES_DES_CHAUFFEURS = [[48.394375, -4.488199],[20,10],[30,40],[40,30]];
 const PHOTO_CHAUFFEUR = ["./img/Lucien.png", "./img/Isabelle.png", "./img/Pierre.png", "./img/Sophie.png"];
 const DESCRIPTION_CHAUFFEUR = [
     "Bienvenue à bord du taxi de Lucien, le maître de la route au sourire contagieux. Avec une passion inébranlable pour la conduite et une connaissance encyclopédique de la ville, Lucien transforme chaque trajet en une aventure agréable. Sa courtoisie naturelle et son sens de l'humour rendent chaque course mémorable. Montez à bord avec Lucien pour une expérience de conduite exceptionnelle, où la destination devient aussi plaisante que le voyage.",
@@ -80,6 +80,16 @@ function genereChauffeurs() {
 }
 
 //      CREATION DE LA STRUCTURE HTML
+
+//Titres
+const creationTitres = () => {
+    let titreUn = document.createElement("h1");
+    titreUn.textContent = "Club Elysium"
+    document.body.appendChild(titreUn);
+    let titreDeux = document.createElement("h2");
+    titreDeux.textContent = "Se déplacer différement";
+    document.body.appendChild(titreDeux);
+}
 
 //Création de 3 div
 const creationDivDeStructure = () => {
@@ -134,17 +144,76 @@ const contenuDivPresentationChauffeurs = () => {
 
 function carteCreation() {
     //Assigne carte à la div-2
-    let carte = L.map("div-2").setView([51.505, -0.09], 13);
+    let carte = L.map("div-2").setView([48.3789, -4.4816], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(carte);
     //Ajout de marker
-    let marker = L.marker([51.5, -0.09]).addTo(carte);
+    let markerOne = L.marker(chauffeurDeTaxi[0].coordonees).addTo(carte);
     //Et son popup
-    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-    
+    markerOne.bindPopup(chauffeurDeTaxi[0].prenom).openPopup();
+    //
+    var popup = L.popup();
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(carte);
 }
+carte.on('click', onMapClick);
+}
+
+//Insertion div-3, le tableau
+const creationChart = () => {
+    const SELECT_DIV_3 = document.getElementById("div-3");
+    let creationCanva = document.createElement("canvas");
+    SELECT_DIV_3.appendChild(creationCanva);
+    let canvaChart = document.querySelector("canvas");
+    canvaChart.setAttribute("id", "Graphique");
+    canvaChart.setAttribute("aria-label", "chart");
+    canvaChart.setAttribute("role", "img");
+}
+
+//Graphique
+const insertionGraphique = () => {
+    const moisAnnee = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+    const monGraphique = document.getElementById("Graphique");
+    const donneesChauffeur = {
+        labels: moisAnnee,
+        datasets: [
+            {
+                label: chauffeurDeTaxi[0].prenom,
+                data: chauffeurDeTaxi[0].kmparcouru,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            },{
+                label: chauffeurDeTaxi[1].prenom,
+                data: chauffeurDeTaxi[1].kmparcouru,
+                fill: false,
+                borderColor: 'rgb(192, 75, 192)',
+                tension: 0.1
+            }, {
+                label: chauffeurDeTaxi[2].prenom,
+                data: chauffeurDeTaxi[2].kmparcouru,
+                fill: false,
+                borderColor: 'rgb(192, 192, 75)',
+                tension: 0.1
+            }, {
+                label: chauffeurDeTaxi[3].prenom,
+                data: chauffeurDeTaxi[3].kmparcouru,
+                fill: false,
+                borderColor: 'rgb(192, 192, 192)',
+                tension: 0.1
+            }
+        ]
+    }
+    new Chart(monGraphique, {
+    type: "line",
+    data: donneesChauffeur,
+    });
+};
 
 //  LANCEMENT DES  FONCTIONS & AUTRES
 
@@ -153,12 +222,16 @@ console.log(genereKilometre());
 
 genereChauffeurs();
 //Debug - print l'array d'objets chauffeur
-for(const PRINT_OBJ of chauffeurDeTaxi) {
-    console.log(PRINT_OBJ);
-}
+//for(const PRINT_OBJ of chauffeurDeTaxi) {
+//    console.log(PRINT_OBJ);
+//}
 
+creationTitres();
 creationDivDeStructure();
 divPresentationChauffeurs();
 contenuDivPresentationChauffeurs();
 carteCreation();
+creationChart();
+insertionGraphique();
+
 
