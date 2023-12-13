@@ -1,3 +1,7 @@
 body {
-    background-color: aquamarine;
+    background-image: url(./img/background.png);
+}
+
+p {
+    color: aliceblue;
 }
