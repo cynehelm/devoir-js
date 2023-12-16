@@ -22,7 +22,7 @@ https://www.chartjs.org/docs/latest/samples/scales/linear-min-max-suggested.html
 https://switch2osm.org/using-tiles/getting-started-with-leaflet/ 
 */
 
-//      CREATION DES OBJETS CHAUFFEURS
+//      CREATION    DES   OBJETS  CHAUFFEURS
 
 //Génère les kilomètres parcourus pour le mois
 function genereKilometre() {
@@ -42,7 +42,7 @@ const PRENOM_DES_CHAUFFEURS = ["Lucien", "Isabelle","Pierre","Sophie"]
 const NOM_DES_CHAUFFEURS = ["Dubois", "Martin","Lefevre", "Renault"];
 const ADRESSE_DES_CHAUFFEURS = ["20 rue des Chats", "10 rue des Oiseaux", "30 rue des Chênes", "40 Rue des Haricots"];
 const ADRESSE_POSTALE_DES_CHAUFFEURS = [29200,29200,28203,29381];
-const COORDONEES_DES_CHAUFFEURS = [[48.394375, -4.488199],[20,10],[30,40],[40,30]];
+const COORDONEES_DES_CHAUFFEURS = [[48.394375, -4.488199],[48.407873, -4.425606],[48.409013, -4.528584],[48.384393, -4.525838]];
 const PHOTO_CHAUFFEUR = ["./img/Lucien.png", "./img/Isabelle.png", "./img/Pierre.png", "./img/Sophie.png"];
 const DESCRIPTION_CHAUFFEUR = [
     "Bienvenue à bord du taxi de Lucien, le maître de la route au sourire contagieux. Avec une passion inébranlable pour la conduite et une connaissance encyclopédique de la ville, Lucien transforme chaque trajet en une aventure agréable. Sa courtoisie naturelle et son sens de l'humour rendent chaque course mémorable. Montez à bord avec Lucien pour une expérience de conduite exceptionnelle, où la destination devient aussi plaisante que le voyage.",
@@ -79,16 +79,23 @@ function genereChauffeurs() {
 
 }
 
-//      CREATION DE LA STRUCTURE HTML
+//      CREATION    DE  LA  STRUCTURE   HTML
 
 //Titres
 const creationTitres = () => {
+    //Div
+    let divTitre = document.createElement("div");
+    divTitre.setAttribute("class", "titre");
+    document.body.appendChild(divTitre);
+    let selectDivTitre = document.querySelector("div");
+    //h1
     let titreUn = document.createElement("h1");
     titreUn.textContent = "Club Elysium"
-    document.body.appendChild(titreUn);
+    selectDivTitre.appendChild(titreUn);
+    //h2
     let titreDeux = document.createElement("h2");
     titreDeux.textContent = "Se déplacer différement";
-    document.body.appendChild(titreDeux);
+    selectDivTitre.appendChild(titreDeux);
 }
 
 //Création de 3 div
@@ -141,27 +148,84 @@ const contenuDivPresentationChauffeurs = () => {
         i++;
     }
 }
+//Ajout récap des chauffeurs
+const recapChauffeur = () => {
+    let selectDiv = document.getElementById("div-1");
+    let creerDiv = document.createElement("div");
+    creerDiv.setAttribute("id", "recap");
+    selectDiv.appendChild(creerDiv);
+    let pRecap = document.createElement("p");
+    let selectDivRecap = document.getElementById("recap");
 
+    //Recherche le plus petit km parcouru
+    const trouvePetitKm = () =>{
+        let i=0;
+        let array1 = [];
+        while (i<chauffeurDeTaxi.length){
+            let minKm = Math.min(...chauffeurDeTaxi[i].kmparcouru);;
+            array1.push(minKm);
+            i++
+        }
+        return array1;
+    }
+    //Associe le plus petit km avec un prénom+nom
+    let minKm = Math.min(...trouvePetitKm());
+    const associePetitKm = (x) => {
+        let i=0;
+        while (i<chauffeurDeTaxi.length){
+            let minKm = Math.min(...chauffeurDeTaxi[i].kmparcouru);;
+            if (minKm === x){
+                return chauffeurDeTaxi[i].prenom+" "+chauffeurDeTaxi[i].nom;
+            }
+            i++;
+        }
+    }
+    let nomMinKm = associePetitKm(minKm);
+    //Recherche le plus grand km parcouru
+    const trouveGrandKm = () =>{
+        let i=0;
+        let array1 = [];
+        while (i<chauffeurDeTaxi.length){
+            let maxKm = Math.max(...chauffeurDeTaxi[i].kmparcouru);;
+            array1.push(maxKm);
+            i++
+        }
+        return array1;
+    }
+    let maxKm = Math.max(...trouveGrandKm());
+    //Associe le plus petit km avec un prénom+nom
+    const associeGrandKm = (x) => {
+        let i=0;
+        while (i<chauffeurDeTaxi.length){
+            let maxKm = Math.max(...chauffeurDeTaxi[i].kmparcouru);;
+            if (maxKm === x){
+                return chauffeurDeTaxi[i].prenom+" "+chauffeurDeTaxi[i].nom;
+            }
+            i++;
+        }
+    }
+    let nomMaxKm = associeGrandKm(maxKm);
+
+
+    pRecap.textContent = nomMinKm+" à réalisé cette année la plus courte distance dans un mois : " + minKm + " km, tandis que "+nomMaxKm+" à réalisé le plus grand nombre de km qui est de : "+maxKm+" km";
+    selectDivRecap.appendChild(pRecap);
+}
+
+//Carte
 function carteCreation() {
     //Assigne carte à la div-2
-    let carte = L.map("div-2").setView([48.3789, -4.4816], 13);
+    let carte = L.map("div-2").setView([48.3789, -4.4816], 12);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(carte);
-    //Ajout de marker
-    let markerOne = L.marker(chauffeurDeTaxi[0].coordonees).addTo(carte);
-    //Et son popup
-    markerOne.bindPopup(chauffeurDeTaxi[0].prenom).openPopup();
-    //
-    var popup = L.popup();
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(carte);
-}
-carte.on('click', onMapClick);
+    //Ajout des markers
+    let i = 0
+    while (i < chauffeurDeTaxi.length) {
+        let marker = L.marker(chauffeurDeTaxi[i].coordonees).addTo(carte);
+        marker.bindPopup(chauffeurDeTaxi[i].prenom +" "+ chauffeurDeTaxi[i].nom ).openPopup();
+        i++;
+    }
 }
 
 //Insertion div-3, le tableau
@@ -179,7 +243,7 @@ const creationChart = () => {
 const insertionGraphique = () => {
     const moisAnnee = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
     const monGraphique = document.getElementById("Graphique");
-    const donneesChauffeur = {
+    const data = {
         labels: moisAnnee,
         datasets: [
             {
@@ -210,15 +274,15 @@ const insertionGraphique = () => {
         ]
     }
     new Chart(monGraphique, {
-    type: "line",
-    data: donneesChauffeur,
+        type: "line",
+        data: data,
     });
 };
 
-//  LANCEMENT DES  FONCTIONS & AUTRES
+//  LANCEMENT   DES  FONCTIONS
 
 //Debug - vérifie la fonction genereKilometre
-console.log(genereKilometre());
+//console.log(genereKilometre());
 
 genereChauffeurs();
 //Debug - print l'array d'objets chauffeur
@@ -230,6 +294,7 @@ creationTitres();
 creationDivDeStructure();
 divPresentationChauffeurs();
 contenuDivPresentationChauffeurs();
+recapChauffeur();
 carteCreation();
 creationChart();
 insertionGraphique();

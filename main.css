@@ -7,23 +7,31 @@ body {
     align-items: center;
     flex-direction: column;
     flex-wrap: wrap;
+    font-family: 'Lato', sans-serif;
+    margin: 0%;
 }
 
 p {
     color: aliceblue;
-    font-family: 'Roboto Flex', sans-serif;
 
 }
 
 h1 {
     color: aliceblue;
-    font-family: 'Tilt Warp', sans-serif;
+    font-weight: bold;
+    
 }
 
 h2 {
     color: aliceblue;
-    font-family: 'Young Serif', serif;
 
+}
+.titre {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 #div-1 {
@@ -31,9 +39,11 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    border-radius: 10%;
+    border-radius: 25px;
     backdrop-filter: blur(10px);
     border: 1px solid gray;
+    width: 90%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .Carte-Chauffeur {
@@ -45,7 +55,7 @@ h2 {
     opacity: 50%;
     backdrop-filter: blur(10px);
     border: 1px solid gray;
-    border-radius: 10%;
+    border-radius: 25px;
     max-width: 300px;
     padding: 1%;
     margin: 1%;
@@ -57,18 +67,22 @@ h2 {
 }
 
 img {
-    max-width: 200px;
     max-height: 150px;
-    border-radius: 10%;
+    border-radius: 25px;
 }
 
 #div-2 {
 
-    height: 350px;
+    height: 500px;
     width: 90%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border: 1px solid gray;
+
 }
 canvas {
-    backdrop-filter: blur(10px);
+
 }
 #div-3 {
 background-color: whitesmoke;
@@ -78,4 +92,36 @@ display: flex;
 align-items: center;
 flex-direction: column;
 flex-wrap: wrap;
+margin-bottom: 2%;
+padding-bottom: 1%;
+padding-top: 1%;
+border-radius: 25px;
+backdrop-filter: blur(10px);
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+border: 1px solid gray;
+
+
+}
+
+#recap  {
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+
+}
+
+#recap p {
+    padding: 2%;
+    text-align: center;
+    background-color: black;
+    border: 1px solid gray;
+    border-radius: 25px;
+    opacity: 50%;
+}
+#recap p:hover {
+    opacity: 100%;
+    transition-duration: 2s;
+
 }
